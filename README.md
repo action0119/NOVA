@@ -48,9 +48,9 @@ GitHub Pages(Actions 배포 방식)에 배포합니다.
 
 ### 배포 전 필요한 수동 설정
 
-1. **Repository Secrets 추가** (Settings → Secrets and variables → Actions)
-   - `VITE_SUPABASE_URL`
-   - `VITE_SUPABASE_ANON_KEY`
+1. **Repository Secrets**: 별도 추가 불필요 — `deploy.yml`은 keep-alive 워크플로가
+   쓰는 기존 `NOVA_SUPABASE_URL` / `NOVA_SUPABASE_ANON_KEY` 시크릿을 빌드 시
+   `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` 이름으로 그대로 재사용합니다.
 2. **GitHub Pages 소스 설정**: Settings → Pages → Build and deployment → Source를
    **GitHub Actions**로 설정
 3. **Supabase Auth 이메일 확인 비활성화** (선택이지만 권장): Authentication →

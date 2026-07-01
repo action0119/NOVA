@@ -32,8 +32,11 @@ jobs:
 
       - name: Build
         env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          # Reuses the existing NOVA_SUPABASE_* secrets (same project as the
+          # keep-alive workflow) — Vite only exposes VITE_-prefixed vars to
+          # client code, so they're renamed here rather than duplicated as secrets.
+          VITE_SUPABASE_URL: ${{ secrets.NOVA_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.NOVA_SUPABASE_ANON_KEY }}
         run: npm run build
 
       - name: Upload artifact
