@@ -29,7 +29,7 @@ export default function CartPage() {
     }
     supabase
       .from('product')
-      .select('*, brand(brand_name)')
+      .select('*, brand!product_brand_id_fkey(brand_name)')
       .in('product_id', ids)
       .then(({ data }) => {
         const map: Record<string, Product> = {}

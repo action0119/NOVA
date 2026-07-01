@@ -22,7 +22,7 @@ export default function WishlistPage() {
     if (!user) return
     supabase
       .from('wishlist')
-      .select('product(*, brand(brand_id, brand_name))')
+      .select('product(*, brand!product_brand_id_fkey(brand_id, brand_name))')
       .eq('user_id', user.id)
       .then(({ data }) => {
         const products = (data ?? [])

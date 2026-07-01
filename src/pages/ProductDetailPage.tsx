@@ -39,7 +39,7 @@ export default function ProductDetailPage() {
     if (!id) return
     supabase
       .from('product')
-      .select('*, brand(brand_id, brand_name)')
+      .select('*, brand!product_brand_id_fkey(brand_id, brand_name)')
       .eq('product_id', id)
       .single()
       .then(({ data }) => {
@@ -61,7 +61,7 @@ export default function ProductDetailPage() {
     if (!product) return
     supabase
       .from('product')
-      .select('*, brand(brand_id, brand_name)')
+      .select('*, brand!product_brand_id_fkey(brand_id, brand_name)')
       .eq('mood', product.mood ?? '')
       .neq('product_id', product.product_id)
       .limit(4)

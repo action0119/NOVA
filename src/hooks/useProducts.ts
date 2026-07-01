@@ -25,7 +25,9 @@ export function useProducts(filters: ProductFilters) {
     setLoading(true)
 
     async function run() {
-      let query = supabase.from('product').select('*, brand(brand_id, brand_name), category(category_name, parent_category:parent_category_id(category_name))')
+      let query = supabase
+        .from('product')
+        .select('*, brand!product_brand_id_fkey(brand_id, brand_name), category(category_name, parent_category:parent_category_id(category_name))')
 
       if (mood) query = query.eq('mood', mood)
       if (search) query = query.ilike('product_name', `%${search}%`)

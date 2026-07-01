@@ -79,7 +79,7 @@ export default function AIStyleFinderPage() {
 
     const { data } = await supabase
       .from('product')
-      .select('*, brand(brand_id, brand_name), category(category_name, parent_category:parent_category_id(category_name))')
+      .select('*, brand!product_brand_id_fkey(brand_id, brand_name), category(category_name, parent_category:parent_category_id(category_name))')
 
     type Row = ProductWithBrand & { category: { category_name: string; parent_category: { category_name: string } | null } | null }
     const rows = (data as Row[]) ?? []

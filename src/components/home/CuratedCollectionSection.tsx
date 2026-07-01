@@ -22,7 +22,7 @@ export default function CuratedCollectionSection() {
   useEffect(() => {
     supabase
       .from('product')
-      .select('*, brand(brand_name)')
+      .select('*, brand!product_brand_id_fkey(brand_name)')
       .eq('product_tag', activeTag)
       .order('created_at', { ascending: false })
       .limit(5)
