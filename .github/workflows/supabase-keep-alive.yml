@@ -1,0 +1,25 @@
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # 주 3회 실행 (월, 수, 금 오전 9시 UTC = 오후 6시 KST)
+    - cron: '0 9 * * 1,3,5'
+  workflow_dispatch: # 수동 실행 가능
+
+jobs:
+  ping-supabase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Health Check
+        run: |
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.NOVA_SUPABASE_URL }}/rest/v1/" \
+            -H "apikey: ${{ secrets.NOVA_SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.NOVA_SUPABASE_ANON_KEY }}")
+          echo "HTTP Status: $RESPONSE"
+          if [ "$RESPONSE" -ge 200 ] && [ "$RESPONSE" -lt 300 ]; then
+            echo "Supabase ping successful!"
+          else
+            echo "Unexpected response: $RESPONSE"
+            exit 1
+          fi

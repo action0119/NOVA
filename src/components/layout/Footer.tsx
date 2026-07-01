@@ -1,0 +1,159 @@
+import { useState } from 'react'
+import { Box, Typography } from '@mui/material'
+import { useToast } from '../../context/ToastContext'
+
+// lucide-react dropped brand/logo glyphs, so the two SNS marks are drawn
+// inline to match the rest of the header/footer's 1.5px line-icon style.
+function InstagramIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth={1.5}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="1" fill="#111111" stroke="none" />
+    </svg>
+  )
+}
+
+function YoutubeIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth={1.5}>
+      <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
+      <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5z" fill="#111111" stroke="none" />
+    </svg>
+  )
+}
+
+const FOOTER_MENUS = [
+  { title: 'Company', items: ['About', 'Contact', 'Careers'] },
+  { title: 'Customer', items: ['FAQ', 'Q&A', 'Shipping', 'Return'] },
+  { title: 'Policy', items: ['Terms', 'Privacy Policy'] },
+]
+
+export default function Footer() {
+  const showToast = useToast()
+  const [email, setEmail] = useState('')
+
+  const handleSubscribe = () => {
+    if (!email.trim()) {
+      showToast('이메일을 입력해주세요.')
+      return
+    }
+    showToast('뉴스레터 구독이 완료되었습니다.')
+    setEmail('')
+  }
+
+  return (
+    <Box component="footer" sx={{ bgcolor: '#EAE3D9', pt: 8, pb: 4 }}>
+      <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
+          <Box sx={{ maxWidth: 320 }}>
+            <Typography sx={{ fontSize: 28, fontWeight: 700, letterSpacing: '8px', color: '#111111', mb: 2 }}>
+              NOVA
+            </Typography>
+            <Typography sx={{ fontSize: 14, lineHeight: 1.6, color: '#555555', mb: 3 }}>
+              당신의 취향을 발견하는 패션 큐레이션 플랫폼, NOVA입니다.
+            </Typography>
+            <Box sx={{ display: 'flex', gap: '14px' }}>
+              <Box
+                component="button"
+                onClick={() => showToast('Instagram 연동은 데모입니다.')}
+                aria-label="Instagram"
+                sx={{ display: 'flex', border: 'none', background: 'none', p: 0, cursor: 'pointer', color: '#111111' }}
+              >
+                <InstagramIcon />
+              </Box>
+              <Box
+                component="button"
+                onClick={() => showToast('YouTube 연동은 데모입니다.')}
+                aria-label="Youtube"
+                sx={{ display: 'flex', border: 'none', background: 'none', p: 0, cursor: 'pointer', color: '#111111' }}
+              >
+                <YoutubeIcon />
+              </Box>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 8 }}>
+            {FOOTER_MENUS.map((menu) => (
+              <Box key={menu.title}>
+                <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#111111', mb: 2 }}>
+                  {menu.title}
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {menu.items.map((item) => (
+                    <Typography
+                      key={item}
+                      component="button"
+                      onClick={() => showToast(`${item} 페이지는 준비 중입니다.`)}
+                      sx={{
+                        fontSize: 13,
+                        color: '#555555',
+                        cursor: 'pointer',
+                        border: 'none',
+                        background: 'none',
+                        p: 0,
+                        textAlign: 'left',
+                        '&:hover': { color: '#111111' },
+                      }}
+                    >
+                      {item}
+                    </Typography>
+                  ))}
+                </Box>
+              </Box>
+            ))}
+          </Box>
+
+          <Box sx={{ minWidth: 280 }}>
+            <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#111111', mb: 1 }}>
+              Newsletter
+            </Typography>
+            <Typography sx={{ fontSize: 13, color: '#555555', mb: 2 }}>
+              NOVA의 새로운 브랜드와 스타일 소식을 받아보세요.
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box
+                component="input"
+                value={email}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                placeholder="이메일 주소"
+                sx={{
+                  width: 240,
+                  height: 44,
+                  border: '1px solid #DCDCDC',
+                  fontSize: 14,
+                  px: 1.5,
+                  fontFamily: 'inherit',
+                  outline: 'none',
+                  '&:focus': { borderColor: '#111111' },
+                }}
+              />
+              <Box
+                component="button"
+                onClick={handleSubscribe}
+                sx={{
+                  width: 120,
+                  height: 44,
+                  bgcolor: '#111111',
+                  color: '#FFFFFF',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                구독하기
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box sx={{ borderTop: '1px solid rgba(0,0,0,0.15)', mt: 6, pt: 3 }}>
+          <Typography sx={{ fontSize: 12, color: '#888888', textAlign: 'center' }}>
+            © 2026 NOVA. All rights reserved.
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
