@@ -4,13 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import SectionContainer from './SectionContainer'
 import Modal from '../common/Modal'
 import { useToast } from '../../context/ToastContext'
+import { moodImage } from '../../constants/moodImages'
 
 const STYLES = [
-  { key: 'Minimal', label: 'Minimal', desc: '미니멀', seed: 'nova-style-minimal' },
-  { key: 'Street', label: 'Street', desc: '스트릿', seed: 'nova-style-street' },
-  { key: 'Vintage', label: 'Vintage', desc: '빈티지', seed: 'nova-style-vintage' },
-  { key: 'Casual', label: 'Casual', desc: '캐주얼', seed: 'nova-style-casual' },
-  { key: 'Office', label: 'Office', desc: '오피스', seed: 'nova-style-office' },
+  { key: 'Minimal' as const, label: 'Minimal', desc: '미니멀' },
+  { key: 'Street' as const, label: 'Street', desc: '스트릿' },
+  { key: 'Vintage' as const, label: 'Vintage', desc: '빈티지' },
+  { key: 'Casual' as const, label: 'Casual', desc: '캐주얼' },
+  { key: 'Office' as const, label: 'Office', desc: '오피스' },
 ]
 
 export default function AIStyleFinderSection() {
@@ -75,7 +76,7 @@ export default function AIStyleFinderSection() {
                   <Box
                     component="img"
                     className="style-card-image"
-                    src={`https://picsum.photos/seed/${style.seed}/400/500`}
+                    src={moodImage(style.key)}
                     alt={style.label}
                     sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
                   />

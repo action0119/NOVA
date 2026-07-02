@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import { useToast } from '../../context/ToastContext'
+import novaLogo from '../../assets/nova-logo.png'
 
 // lucide-react dropped brand/logo glyphs, so the two SNS marks are drawn
 // inline to match the rest of the header/footer's 1.5px line-icon style.
@@ -19,6 +20,14 @@ function YoutubeIcon({ size = 22 }: { size?: number }) {
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth={1.5}>
       <rect x="2.5" y="5.5" width="19" height="13" rx="4" />
       <path d="M10.5 9.5v5l4.5-2.5-4.5-2.5z" fill="#111111" stroke="none" />
+    </svg>
+  )
+}
+
+function KakaotalkIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth={1.5}>
+      <path d="M12 4C6.98 4 3 7.28 3 11.32c0 2.58 1.66 4.85 4.16 6.15-.18.66-.66 2.4-.75 2.77-.12.46.17.45.36.33.15-.1 2.36-1.6 3.32-2.25.62.09 1.26.14 1.91.14 5.02 0 9-3.28 9-7.32C21 7.28 17.02 4 12 4z" />
     </svg>
   )
 }
@@ -47,13 +56,11 @@ export default function Footer() {
       <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
           <Box sx={{ maxWidth: 320 }}>
-            <Typography sx={{ fontSize: 28, fontWeight: 700, letterSpacing: '8px', color: '#111111', mb: 2 }}>
-              NOVA
-            </Typography>
+            <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 40, width: 'auto', mb: 2 }} />
             <Typography sx={{ fontSize: 14, lineHeight: 1.6, color: '#555555', mb: 3 }}>
               당신의 취향을 발견하는 패션 큐레이션 플랫폼, NOVA입니다.
             </Typography>
-            <Box sx={{ display: 'flex', gap: '14px' }}>
+            <Box sx={{ display: 'flex', gap: '14px', mb: 3 }}>
               <Box
                 component="button"
                 onClick={() => showToast('Instagram 연동은 데모입니다.')}
@@ -70,7 +77,17 @@ export default function Footer() {
               >
                 <YoutubeIcon />
               </Box>
+              <Box
+                component="button"
+                onClick={() => showToast('KakaoTalk 연동은 데모입니다.')}
+                aria-label="KakaoTalk"
+                sx={{ display: 'flex', border: 'none', background: 'none', p: 0, cursor: 'pointer', color: '#111111' }}
+              >
+                <KakaotalkIcon />
+              </Box>
             </Box>
+            <Typography sx={{ fontSize: 13, fontWeight: 700, color: '#111111', mb: 0.5 }}>고객센터</Typography>
+            <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#111111' }}>1588-0119</Typography>
           </Box>
 
           <Box sx={{ display: 'flex', gap: 8 }}>

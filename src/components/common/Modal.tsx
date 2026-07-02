@@ -33,9 +33,9 @@ export default function Modal({ open, onClose, width = 560, children }: ModalPro
       <IconButton
         onClick={onClose}
         aria-label="닫기"
-        sx={{ position: 'absolute', top: 24, right: 24, width: 24, height: 24, color: '#111111' }}
+        sx={{ position: 'absolute', top: 16, right: 16, width: 44, height: 44, color: '#111111' }}
       >
-        <X size={22} />
+        <X size={28} />
       </IconButton>
       <Box>{children}</Box>
     </Dialog>

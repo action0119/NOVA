@@ -2,14 +2,15 @@ import { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import SectionContainer from './SectionContainer'
 import { useToast } from '../../context/ToastContext'
+import { moodImage } from '../../constants/moodImages'
 
 const HASHTAGS = ['Minimal', 'Street', 'Casual', 'Vintage', 'Office', 'Daily']
 
 const MOOD_CARDS = [
-  { key: 'Minimal', seed: 'nova-trend-minimal' },
-  { key: 'Street', seed: 'nova-trend-street' },
-  { key: 'Casual', seed: 'nova-trend-casual' },
-  { key: 'Vintage', seed: 'nova-trend-vintage' },
+  { key: 'Minimal' as const },
+  { key: 'Street' as const },
+  { key: 'Casual' as const },
+  { key: 'Vintage' as const },
 ]
 
 export default function TrendMoodSection() {
@@ -75,7 +76,7 @@ export default function TrendMoodSection() {
             >
               <Box
                 component="img"
-                src={`https://picsum.photos/seed/${card.seed}/400/500`}
+                src={moodImage(card.key)}
                 alt={card.key}
                 sx={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />

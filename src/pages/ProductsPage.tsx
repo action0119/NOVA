@@ -14,6 +14,7 @@ export default function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams()
   const category = searchParams.get('category')
   const mood = searchParams.get('mood')
+  const tag = searchParams.get('tag')
 
   const [search, setSearch] = useState('')
   const [selectedBrands, setSelectedBrands] = useState<string[]>([])
@@ -21,7 +22,7 @@ export default function ProductsPage() {
   const [quickViewProduct, setQuickViewProduct] = useState<ProductWithBrand | null>(null)
 
   const brands = useBrands()
-  const { products, loading } = useProducts({ category, mood, brandNames: selectedBrands, search })
+  const { products, loading } = useProducts({ category, mood, tag, brandNames: selectedBrands, search })
   const { isWishlisted, toggle } = useWishlistToggle()
 
   const sorted = useMemo(() => {

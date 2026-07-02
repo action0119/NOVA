@@ -3,3 +3,6 @@
 @import 'pretendard/dist/web/static/Pretendard-Medium.css';
 @import 'pretendard/dist/web/static/Pretendard-SemiBold.css';
 @import 'pretendard/dist/web/static/Pretendard-Bold.css';
+/* Variable weight font used only by the floating event banner's bottom bar text.
+   Dynamic subset so the browser only fetches the unicode ranges actually rendered. */
+@import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
