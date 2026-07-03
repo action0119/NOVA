@@ -2,6 +2,8 @@ import { Box, Typography, Button } from '@mui/material'
 import { Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { formatPrice, TAG_COLORS, TAG_LABELS } from '../../utils/format'
+import { objectPositionForId } from '../../utils/objectPosition'
+import WishlistHeartButton from './WishlistHeartButton'
 import type { Tables } from '../../types/database'
 
 type Product = Tables<'product'>
@@ -13,6 +15,8 @@ interface ProductCardProps {
   showWishlist?: boolean
   isWishlisted?: boolean
   onToggleWishlist?: () => void
+  // 'badge': 상단 우측 흰 배경 하트(기존 상품목록/검색 등). 'overlay': 하단 우측 투명 배경 하트(AI 추천과 동일 UI).
+  heartVariant?: 'badge' | 'overlay'
 }
 
 export default function ProductCard({
@@ -22,6 +26,7 @@ export default function ProductCard({
   showWishlist = false,
   isWishlisted = false,
   onToggleWishlist,
+  heartVariant = 'badge',
 }: ProductCardProps) {
   const navigate = useNavigate()
 
@@ -44,6 +49,7 @@ export default function ProductCard({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: objectPositionForId(product.product_id),
             transition: 'transform 0.3s ease',
           }}
         />
@@ -66,7 +72,10 @@ export default function ProductCard({
             {TAG_LABELS[product.product_tag] ?? product.product_tag}
           </Box>
         )}
-        {showWishlist && (
+        {showWishlist && heartVariant === 'overlay' && (
+          <WishlistHeartButton active={isWishlisted} onToggle={() => onToggleWishlist?.()} />
+        )}
+        {showWishlist && heartVariant === 'badge' && (
           <Box
             component="button"
             onClick={(e: React.MouseEvent) => {

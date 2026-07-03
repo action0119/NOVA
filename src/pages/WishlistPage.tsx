@@ -8,6 +8,7 @@ import { useAuthStore } from '../store/authStore'
 import { useWishlistToggle } from '../hooks/useWishlistToggle'
 import { useCartStore } from '../store/cartStore'
 import { useToast } from '../context/ToastContext'
+import { objectPositionForId } from '../utils/objectPosition'
 import type { ProductWithBrand } from '../hooks/useProducts'
 
 export default function WishlistPage() {
@@ -82,7 +83,7 @@ export default function WishlistPage() {
               src={product.product_image ?? undefined}
               alt={product.product_name}
               onClick={() => navigate(`/products/detail/${product.product_id}`)}
-              sx={{ width: 100, height: 130, objectFit: 'cover', cursor: 'pointer' }}
+              sx={{ width: 100, height: 130, objectFit: 'cover', objectPosition: objectPositionForId(product.product_id), cursor: 'pointer' }}
             />
             <Box sx={{ flex: 1 }}>
               <Typography sx={{ fontSize: 13, color: '#888888' }}>{product.brand?.brand_name}</Typography>

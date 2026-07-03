@@ -52,11 +52,11 @@ export default function Footer() {
   }
 
   return (
-    <Box component="footer" sx={{ bgcolor: '#EAE3D9', pt: 8, pb: 4 }}>
+    <Box component="footer" sx={{ bgcolor: '#EAE3D9', pt: 10, pb: 4 }}>
       <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
           <Box sx={{ maxWidth: 320 }}>
-            <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 36, width: 'auto', mb: 2 }} />
+            <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 150, width: 'auto', mb: 3 }} />
             <Typography sx={{ fontSize: 14, lineHeight: 1.6, color: '#555555', mb: 3 }}>
               당신의 취향을 발견하는 패션 큐레이션 플랫폼, NOVA입니다.
             </Typography>

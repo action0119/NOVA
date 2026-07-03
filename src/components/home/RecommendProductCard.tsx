@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material'
-import { Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { formatPrice } from '../../utils/format'
+import { objectPositionForId } from '../../utils/objectPosition'
+import WishlistHeartButton from '../common/WishlistHeartButton'
 import type { Tables } from '../../types/database'
 
 type Product = Tables<'product'>
@@ -35,31 +36,15 @@ export default function RecommendProductCard({ product, brandName, isWishlisted,
           className="recommend-card-image"
           src={product.product_image ?? undefined}
           alt={product.product_name}
-          sx={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
-        />
-        <Box
-          component="button"
-          onClick={(e: React.MouseEvent) => {
-            e.stopPropagation()
-            onToggleWishlist()
-          }}
-          aria-label="관심상품"
           sx={{
-            position: 'absolute',
-            bottom: 10,
-            right: 10,
-            width: 30,
-            height: 30,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bgcolor: 'rgba(255,255,255,0.9)',
-            border: 'none',
-            cursor: 'pointer',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: objectPositionForId(product.product_id),
+            transition: 'transform 0.3s ease',
           }}
-        >
-          <Heart size={16} fill={isWishlisted ? '#E5484D' : 'none'} color={isWishlisted ? '#E5484D' : '#111111'} />
-        </Box>
+        />
+        <WishlistHeartButton active={isWishlisted} onToggle={onToggleWishlist} />
       </Box>
 
       <Box sx={{ pt: 1.5, textAlign: 'left' }}>

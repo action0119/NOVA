@@ -7,6 +7,7 @@ import { formatPrice } from '../utils/format'
 import { useCartStore } from '../store/cartStore'
 import { useAuthStore } from '../store/authStore'
 import { useToast } from '../context/ToastContext'
+import { objectPositionForId } from '../utils/objectPosition'
 import type { Tables } from '../types/database'
 
 type Product = Tables<'product'> & { brand: { brand_name: string } | null }
@@ -107,7 +108,7 @@ export default function CartPage() {
                   key={`${item.product_id}-${item.selected_color}-${item.selected_size}`}
                   sx={{ display: 'flex', gap: 3, alignItems: 'center', borderBottom: '1px solid #E5E5E5', pb: 3 }}
                 >
-                  <Box component="img" src={product.product_image ?? undefined} alt={product.product_name} sx={{ width: 100, height: 130, objectFit: 'cover' }} />
+                  <Box component="img" src={product.product_image ?? undefined} alt={product.product_name} sx={{ width: 100, height: 130, objectFit: 'cover', objectPosition: objectPositionForId(product.product_id) }} />
                   <Box sx={{ flex: 1 }}>
                     <Typography sx={{ fontSize: 13, color: '#888888' }}>{product.brand?.brand_name}</Typography>
                     <Typography sx={{ fontSize: 16, fontWeight: 600, color: '#111111' }}>{product.product_name}</Typography>

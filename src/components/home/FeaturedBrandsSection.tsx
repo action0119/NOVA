@@ -3,6 +3,7 @@ import { Box, Typography } from '@mui/material'
 import SectionContainer from './SectionContainer'
 import { useToast } from '../../context/ToastContext'
 import { supabase } from '../../lib/supabaseClient'
+import { objectPositionForId } from '../../utils/objectPosition'
 import type { Tables } from '../../types/database'
 
 type Brand = Tables<'brand'>
@@ -43,6 +44,7 @@ export default function FeaturedBrandsSection() {
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover',
+                  objectPosition: objectPositionForId(brand.brand_id),
                   transition: 'transform 0.3s ease',
                   '&:hover': { transform: 'scale(1.04)' },
                 }}

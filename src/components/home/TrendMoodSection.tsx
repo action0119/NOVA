@@ -135,14 +135,18 @@ export default function TrendMoodSection() {
                     sx={{
                       position: 'absolute',
                       inset: 0,
-                      bgcolor: selected === mood ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.25)',
-                      transition: 'background-color 0.2s ease',
+                      background:
+                        selected === mood
+                          ? 'linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.65) 100%)'
+                          : 'linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.5) 100%)',
+                      transition: 'background 0.2s ease',
                       display: 'flex',
-                      alignItems: 'center',
+                      alignItems: 'flex-end',
                       justifyContent: 'center',
+                      pb: '18px',
                     }}
                   >
-                    <Typography sx={{ fontSize: 22, fontWeight: 700, color: '#FFFFFF', textAlign: 'center' }}>
+                    <Typography sx={{ fontSize: 20, fontWeight: 700, color: '#FFFFFF', textAlign: 'center' }}>
                       {MOOD_LABELS[mood]}
                     </Typography>
                   </Box>

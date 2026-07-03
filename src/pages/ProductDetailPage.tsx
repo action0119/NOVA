@@ -15,6 +15,7 @@ import Modal from '../components/common/Modal'
 import SizeGuideDiagram from '../components/product/SizeGuideDiagram'
 import { COLOR_HEX, isDarkColor } from '../constants/colors'
 import { moodImage, type Mood } from '../constants/moodImages'
+import { objectPositionForId } from '../utils/objectPosition'
 import type { Tables } from '../types/database'
 import type { ProductWithBrand } from '../hooks/useProducts'
 
@@ -198,7 +199,7 @@ export default function ProductDetailPage() {
           component="img"
           src={product.product_image ?? undefined}
           alt={product.product_name}
-          sx={{ width: 480, height: 600, objectFit: 'cover', flexShrink: 0 }}
+          sx={{ width: 480, height: 600, objectFit: 'cover', objectPosition: objectPositionForId(product.product_id), flexShrink: 0 }}
         />
         <Box sx={{ flex: 1, pt: 2 }}>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

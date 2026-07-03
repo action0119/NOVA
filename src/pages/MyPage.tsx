@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabaseClient'
 import { formatPrice } from '../utils/format'
 import { useAuthStore } from '../store/authStore'
 import { useToast } from '../context/ToastContext'
+import { objectPositionForId } from '../utils/objectPosition'
 import type { Tables } from '../types/database'
 
 type UserRow = Tables<'users'>
@@ -170,7 +171,7 @@ export default function MyPage() {
                   onClick={() => navigate(`/products/detail/${rv.product!.product_id}`)}
                   sx={{ width: 120, flexShrink: 0, cursor: 'pointer' }}
                 >
-                  <Box component="img" src={rv.product.product_image ?? undefined} alt={rv.product.product_name} sx={{ width: 120, height: 150, objectFit: 'cover', mb: 1 }} />
+                  <Box component="img" src={rv.product.product_image ?? undefined} alt={rv.product.product_name} sx={{ width: 120, height: 150, objectFit: 'cover', objectPosition: objectPositionForId(rv.product.product_id), mb: 1 }} />
                   <Typography sx={{ fontSize: 12, color: '#555555' }}>{rv.product.product_name}</Typography>
                 </Box>
               ) : null

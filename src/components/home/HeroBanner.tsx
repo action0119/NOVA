@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Box, Typography, Button, GlobalStyles } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import { Play, Pause } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import type { Swiper as SwiperType } from 'swiper'
@@ -16,6 +16,19 @@ import { objectPositionFor } from '../../utils/objectPosition'
 const HERO_VIDEO_START = 3
 const AUTOPLAY_DELAY = 5000
 const SLIDE_SPEED = 800
+
+// Floating Popup 컨트롤과 동일한 디자인(투명 배경, 24px 아이콘 버튼)
+const controlBtnSx = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 24,
+  height: 24,
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  color: '#555555',
+}
 
 const SLIDES = [
   {
@@ -210,35 +223,14 @@ export default function HeroBanner() {
         </Swiper>
       </Box>
 
-      {/* Hero 하단 컨트롤: 이전/진행바/다음/재생-정지 */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '16px', mt: '16px' }}>
-        <Box
-          component="button"
-          ref={prevRef}
-          aria-label="이전 슬라이드"
-          sx={{
-            width: 28,
-            height: 28,
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: '#111111',
-          }}
-        >
-          ←
-        </Box>
-
+      {/* Hero 하단 컨트롤: 좌측 진행바 + 우측 버튼 클러스터(이전/재생-정지/다음) */}
+      <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', mt: '16px' }}>
         <Box
           ref={progressRef}
           className="hero-progressbar"
           sx={{
             width: 1202,
-            maxWidth: '60vw',
+            maxWidth: '100%',
             height: 18,
             bgcolor: 'transparent',
             position: 'relative',
@@ -246,45 +238,16 @@ export default function HeroBanner() {
           }}
         />
 
-        <Box
-          component="button"
-          ref={nextRef}
-          aria-label="다음 슬라이드"
-          sx={{
-            width: 28,
-            height: 28,
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            fontSize: 16,
-            color: '#111111',
-          }}
-        >
-          →
-        </Box>
-
-        <Box
-          component="button"
-          onClick={togglePlaying}
-          aria-label={playing ? '슬라이드 정지' : '슬라이드 재생'}
-          sx={{
-            width: 28,
-            height: 28,
-            flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: 'none',
-            background: 'none',
-            cursor: 'pointer',
-            color: '#111111',
-          }}
-        >
-          {playing ? <Pause size={16} strokeWidth={1.5} /> : <Play size={16} strokeWidth={1.5} />}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
+          <Box component="button" ref={prevRef} aria-label="이전 슬라이드" sx={controlBtnSx}>
+            <ChevronLeft size={16} strokeWidth={1.5} />
+          </Box>
+          <Box component="button" onClick={togglePlaying} aria-label={playing ? '슬라이드 정지' : '슬라이드 재생'} sx={controlBtnSx}>
+            {playing ? <Pause size={14} strokeWidth={1.5} /> : <Play size={14} strokeWidth={1.5} />}
+          </Box>
+          <Box component="button" ref={nextRef} aria-label="다음 슬라이드" sx={controlBtnSx}>
+            <ChevronRight size={16} strokeWidth={1.5} />
+          </Box>
         </Box>
       </Box>
     </Box>

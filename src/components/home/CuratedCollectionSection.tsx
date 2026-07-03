@@ -4,6 +4,7 @@ import SectionContainer from './SectionContainer'
 import ProductCard from '../common/ProductCard'
 import QuickViewModal from '../common/QuickViewModal'
 import { supabase } from '../../lib/supabaseClient'
+import { useWishlistToggle } from '../../hooks/useWishlistToggle'
 import type { Tables } from '../../types/database'
 
 type Product = Tables<'product'> & { brand: { brand_name: string } | null }
@@ -18,6 +19,7 @@ export default function CuratedCollectionSection() {
   const [activeTag, setActiveTag] = useState<string>('NEW')
   const [products, setProducts] = useState<Product[]>([])
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
+  const { isWishlisted, toggle } = useWishlistToggle()
 
   useEffect(() => {
     supabase
@@ -71,6 +73,10 @@ export default function CuratedCollectionSection() {
               product={product}
               brandName={product.brand?.brand_name}
               onQuickView={(p) => setQuickViewProduct(p as Product)}
+              showWishlist
+              heartVariant="overlay"
+              isWishlisted={isWishlisted(product.product_id)}
+              onToggleWishlist={() => toggle(product.product_id)}
             />
           </Box>
         ))}

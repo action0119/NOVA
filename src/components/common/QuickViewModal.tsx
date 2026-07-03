@@ -4,6 +4,7 @@ import Modal from './Modal'
 import { formatPrice } from '../../utils/format'
 import { useCartStore } from '../../store/cartStore'
 import { useToast } from '../../context/ToastContext'
+import { objectPositionForId } from '../../utils/objectPosition'
 import type { Tables } from '../../types/database'
 
 type Product = Tables<'product'>
@@ -42,7 +43,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
           component="img"
           src={product.product_image ?? undefined}
           alt={product.product_name}
-          sx={{ width: 240, height: 300, objectFit: 'cover', flexShrink: 0 }}
+          sx={{ width: 240, height: 300, objectFit: 'cover', objectPosition: objectPositionForId(product.product_id), flexShrink: 0 }}
         />
         <Box sx={{ flex: 1 }}>
           {product.brand?.brand_name && (

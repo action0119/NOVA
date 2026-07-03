@@ -7,7 +7,7 @@ import { useToast } from '../../context/ToastContext'
 import { useAuthStore } from '../../store/authStore'
 import { useCartStore } from '../../store/cartStore'
 import novaLogo from '../../assets/nova-logo-2.png'
-import { LOGO_ROW_HEIGHT, NAV_ROW_HEIGHT, UTIL_ROW_HEIGHT } from './headerConstants'
+import { TOP_ROW_HEIGHT, MAIN_ROW_HEIGHT } from './headerConstants'
 
 const NAV_ITEMS = [
   { key: 'best', label: '베스트', to: '/products?tag=BEST' },
@@ -65,62 +65,84 @@ export default function Header() {
         }}
       >
         <Box sx={{ maxWidth: 1920, mx: 'auto', px: 6 }}>
-          {/* 1행: 로고 + 우측 아이콘(마이페이지/관심목록/장바구니/회원가입,로그인) */}
-          <Box sx={{ height: LOGO_ROW_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 56, width: 'auto' }} />
+          {/* 1행: 우측 아이콘(마이페이지/관심목록/장바구니/회원가입,로그인) */}
+          <Box sx={{ height: TOP_ROW_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '22px' }}>
+            <Box
+              component="button"
+              onClick={() => navigate(user ? '/mypage' : '/login')}
+              aria-label="마이페이지"
+              sx={iconBtnSx}
+            >
+              <User size={18} strokeWidth={1.5} />
             </Box>
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: '22px' }}>
-              <Box
-                component="button"
-                onClick={() => navigate(user ? '/mypage' : '/login')}
-                aria-label="마이페이지"
-                sx={iconBtnSx}
-              >
-                <User size={20} strokeWidth={1.5} />
-              </Box>
-              <Box component="button" onClick={() => navigate('/wishlist')} aria-label="관심상품" sx={iconBtnSx}>
-                <Heart size={20} strokeWidth={1.5} />
-              </Box>
-              <Box component="button" onClick={() => navigate('/cart')} aria-label="장바구니" sx={{ ...iconBtnSx, position: 'relative' }}>
-                <ShoppingBasket size={20} strokeWidth={1.5} />
-                {cartCount > 0 && (
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      top: -6,
-                      right: -8,
-                      minWidth: 16,
-                      height: 16,
-                      px: '3px',
-                      borderRadius: '8px',
-                      bgcolor: '#3157FF',
-                      color: '#FFFFFF',
-                      fontSize: 10,
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    {cartCount}
-                  </Box>
-                )}
-              </Box>
-              <Box component="button" onClick={() => navigate('/login')} aria-label="회원가입/로그인" sx={iconBtnSx}>
-                <Lock size={20} strokeWidth={1.5} />
-              </Box>
+            <Box component="button" onClick={() => navigate('/wishlist')} aria-label="관심상품" sx={iconBtnSx}>
+              <Heart size={18} strokeWidth={1.5} />
+            </Box>
+            <Box component="button" onClick={() => navigate('/cart')} aria-label="장바구니" sx={{ ...iconBtnSx, position: 'relative' }}>
+              <ShoppingBasket size={18} strokeWidth={1.5} />
+              {cartCount > 0 && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: -6,
+                    right: -8,
+                    minWidth: 16,
+                    height: 16,
+                    px: '3px',
+                    borderRadius: '8px',
+                    bgcolor: '#3157FF',
+                    color: '#FFFFFF',
+                    fontSize: 10,
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {cartCount}
+                </Box>
+              )}
+            </Box>
+            <Box component="button" onClick={() => navigate('/login')} aria-label="회원가입/로그인" sx={iconBtnSx}>
+              <Lock size={18} strokeWidth={1.5} />
             </Box>
           </Box>
 
-          {/* 2행: 검색창 */}
-          <Box sx={{ height: UTIL_ROW_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {/* 2행: 좌측 로고+메뉴 / 우측 검색창 */}
+          <Box sx={{ height: MAIN_ROW_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <Box component={Link} to="/" sx={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+                <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 100, width: 'auto' }} />
+              </Box>
+
+              <Box component="nav" sx={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                {NAV_ITEMS.map((item) => (
+                  <Box
+                    key={item.key}
+                    onClick={() => handleNavClick(item)}
+                    onMouseEnter={() => setActiveDropdown(item.dropdown ?? null)}
+                    sx={{
+                      fontSize: 17,
+                      fontWeight: 500,
+                      letterSpacing: '-0.2px',
+                      color: item.accent ? '#3157FF' : '#111111',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {item.label}
+                  </Box>
+                ))}
+              </Box>
+            </Box>
+
             <Box
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                width: 480,
+                width: 360,
+                flexShrink: 0,
                 height: 40,
                 border: '1px solid #DCDCDC',
                 px: 1.5,
@@ -144,27 +166,6 @@ export default function Header() {
                 }}
               />
             </Box>
-          </Box>
-
-          {/* 3행: 카테고리 내비게이션 */}
-          <Box component="nav" sx={{ height: NAV_ROW_HEIGHT, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-            {NAV_ITEMS.map((item) => (
-              <Box
-                key={item.key}
-                onClick={() => handleNavClick(item)}
-                onMouseEnter={() => setActiveDropdown(item.dropdown ?? null)}
-                sx={{
-                  fontSize: 17,
-                  fontWeight: 500,
-                  letterSpacing: '-0.2px',
-                  color: item.accent ? '#3157FF' : '#111111',
-                  cursor: 'pointer',
-                  userSelect: 'none',
-                }}
-              >
-                {item.label}
-              </Box>
-            ))}
           </Box>
         </Box>
       </Box>
