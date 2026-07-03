@@ -24,7 +24,7 @@ export default function FeaturedBrandsSection() {
       <Box sx={{ mb: 6 }}>
         <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#888888', mb: 2 }}>03</Typography>
         <Typography sx={{ fontSize: 36, fontWeight: 700, lineHeight: 1.2, color: '#111111', mb: 2 }}>
-          Featured Brands
+          브랜드 스토리
         </Typography>
         <Typography sx={{ fontSize: 16, lineHeight: 1.6, color: '#555555' }}>
           NOVA가 선별한 브랜드의 철학과 스타일을 만나보세요.
@@ -70,7 +70,7 @@ export default function FeaturedBrandsSection() {
                   '&:hover': { color: '#3157FF' },
                 }}
               >
-                View More
+                더보기
               </Box>
             </Box>
           </Box>

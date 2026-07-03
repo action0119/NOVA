@@ -3,6 +3,7 @@ import { Box, Typography, Button, TextField, Checkbox, FormControlLabel } from '
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 import { useToast } from '../context/ToastContext'
+import novaLogo from '../assets/nova-logo-2.png'
 
 const SOCIAL_PROVIDERS = ['네이버', '카카오', '구글', '애플']
 
@@ -49,9 +50,14 @@ export default function LoginPage() {
   }
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', py: 15, px: 3 }}>
+    <Box sx={{ maxWidth: 400, mx: 'auto', py: 12, px: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <Box component={Link} to="/" sx={{ display: 'flex' }}>
+          <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 40, width: 'auto' }} />
+        </Box>
+      </Box>
       <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111111', mb: 5, textAlign: 'center' }}>
-        Login
+        로그인
       </Typography>
 
       <TextField
@@ -98,7 +104,7 @@ export default function LoginPage() {
           '&:hover': { bgcolor: '#3157FF' },
         }}
       >
-        Login
+        로그인
       </Button>
       <Button
         fullWidth

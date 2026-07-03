@@ -94,7 +94,7 @@ export default function QuickViewModal({ product, onClose }: QuickViewModalProps
               '&:hover': { bgcolor: '#3157FF' },
             }}
           >
-            Add to Cart
+            장바구니 담기
           </Button>
         </Box>
       </Box>

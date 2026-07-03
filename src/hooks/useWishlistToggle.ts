@@ -27,7 +27,7 @@ export function useWishlistToggle() {
       return
     }
     const added = await toggleWishlist(user.id, productId)
-    showToast(added ? '관심목록에 추가되었습니다.' : '관심목록에서 삭제되었습니다.')
+    showToast(added ? '관심상품에 추가되었습니다.' : '관심상품에서 삭제되었습니다.')
   }
 
   return { isWishlisted, toggle, loggedIn: Boolean(user) }

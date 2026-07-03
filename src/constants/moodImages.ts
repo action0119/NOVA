@@ -1,6 +1,15 @@
 export const MOODS = ['Minimal', 'Street', 'Casual', 'Vintage', 'Office'] as const
 export type Mood = (typeof MOODS)[number]
 
+// DB/이미지 폴더는 영문 값을 그대로 쓰므로, 화면 표기만 한글로 매핑한다.
+export const MOOD_LABELS: Record<Mood, string> = {
+  Minimal: '미니멀',
+  Street: '스트릿',
+  Casual: '캐주얼',
+  Vintage: '빈티지',
+  Office: '오피스',
+}
+
 // Files living under public/image/<Mood>/ — served as-is by Vite (see vite.config base).
 const MOOD_FILES: Record<Mood, string[]> = {
   Minimal: [

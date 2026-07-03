@@ -6,6 +6,8 @@ import { supabase } from '../lib/supabaseClient'
 import { useAuthStore } from '../store/authStore'
 import { useToast } from '../context/ToastContext'
 import type { ProductWithBrand } from '../hooks/useProducts'
+import { MOODS, MOOD_LABELS, type Mood } from '../constants/moodImages'
+import { CATEGORY_LABELS, COLOR_LABELS } from '../constants/labels'
 
 const GENDERS = ['Women', 'Men']
 const PRICE_RANGES = [
@@ -15,19 +17,21 @@ const PRICE_RANGES = [
   { label: '30만원 이상', min: 300000, max: Infinity },
 ]
 const COLORS = ['Black', 'White', 'Beige', 'Navy', 'Grey', 'Brown', 'Blue']
-const STYLES = ['Minimal', 'Street', 'Vintage', 'Casual', 'Office']
-const MOODS = ['Minimal', 'Street', 'Vintage', 'Casual', 'Office']
+const STYLES: string[] = [...MOODS]
+const MOOD_OPTIONS: string[] = [...MOODS]
 
 function SelectRow<T extends string>({
   label,
   options,
   value,
   onChange,
+  getLabel = (v) => v,
 }: {
   label: string
-  options: T[]
+  options: readonly T[]
   value: T | null
   onChange: (v: T) => void
+  getLabel?: (v: T) => string
 }) {
   return (
     <Box sx={{ mb: 4 }}>
@@ -48,7 +52,7 @@ function SelectRow<T extends string>({
               cursor: 'pointer',
             }}
           >
-            {opt}
+            {getLabel(opt)}
           </Box>
         ))}
       </Box>
@@ -126,16 +130,16 @@ export default function AIStyleFinderPage() {
 
   return (
     <Box sx={{ maxWidth: 720, mx: 'auto', px: 6, py: 10 }}>
-      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 1 }}>AI Style Finder</Typography>
+      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 1 }}>AI 스타일 파인더</Typography>
       <Typography sx={{ fontSize: 16, color: '#555555', mb: 6 }}>
         당신의 취향을 알려주시면 어울리는 브랜드와 상품을 추천해드립니다.
       </Typography>
 
-      <SelectRow label="성별" options={GENDERS} value={gender} onChange={setGender} />
+      <SelectRow label="성별" options={GENDERS} value={gender} onChange={setGender} getLabel={(v) => CATEGORY_LABELS[v] ?? v} />
       <SelectRow label="가격대" options={PRICE_RANGES.map((r) => r.label)} value={priceLabel} onChange={setPriceLabel} />
-      <SelectRow label="선호 색상" options={COLORS} value={color} onChange={setColor} />
-      <SelectRow label="스타일" options={STYLES} value={style} onChange={setStyle} />
-      <SelectRow label="선호 무드" options={MOODS} value={mood} onChange={setMood} />
+      <SelectRow label="선호 색상" options={COLORS} value={color} onChange={setColor} getLabel={(v) => COLOR_LABELS[v] ?? v} />
+      <SelectRow label="스타일" options={STYLES} value={style} onChange={setStyle} getLabel={(v) => MOOD_LABELS[v as Mood]} />
+      <SelectRow label="선호 무드" options={MOOD_OPTIONS} value={mood} onChange={setMood} getLabel={(v) => MOOD_LABELS[v as Mood]} />
 
       <Button
         fullWidth

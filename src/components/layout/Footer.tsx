@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import { useToast } from '../../context/ToastContext'
-import novaLogo from '../../assets/nova-logo.png'
+import novaLogo from '../../assets/nova-logo-2.png'
 
 // lucide-react dropped brand/logo glyphs, so the two SNS marks are drawn
 // inline to match the rest of the header/footer's 1.5px line-icon style.
@@ -33,9 +33,9 @@ function KakaotalkIcon({ size = 22 }: { size?: number }) {
 }
 
 const FOOTER_MENUS = [
-  { title: 'Company', items: ['About', 'Contact', 'Careers'] },
-  { title: 'Customer', items: ['FAQ', 'Q&A', 'Shipping', 'Return'] },
-  { title: 'Policy', items: ['Terms', 'Privacy Policy'] },
+  { title: '회사', items: ['소개', '문의하기', '채용정보'] },
+  { title: '고객센터', items: ['자주 묻는 질문', '1:1 문의', '배송 안내', '교환/반품'] },
+  { title: '이용정책', items: ['이용약관', '개인정보처리방침'] },
 ]
 
 export default function Footer() {
@@ -56,7 +56,7 @@ export default function Footer() {
       <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 6 }}>
           <Box sx={{ maxWidth: 320 }}>
-            <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 40, width: 'auto', mb: 2 }} />
+            <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 36, width: 'auto', mb: 2 }} />
             <Typography sx={{ fontSize: 14, lineHeight: 1.6, color: '#555555', mb: 3 }}>
               당신의 취향을 발견하는 패션 큐레이션 플랫폼, NOVA입니다.
             </Typography>
@@ -123,7 +123,7 @@ export default function Footer() {
 
           <Box sx={{ minWidth: 280 }}>
             <Typography sx={{ fontSize: 14, fontWeight: 700, color: '#111111', mb: 1 }}>
-              Newsletter
+              뉴스레터
             </Typography>
             <Typography sx={{ fontSize: 13, color: '#555555', mb: 2 }}>
               NOVA의 새로운 브랜드와 스타일 소식을 받아보세요.
@@ -167,7 +167,7 @@ export default function Footer() {
 
         <Box sx={{ borderTop: '1px solid rgba(0,0,0,0.15)', mt: 6, pt: 3 }}>
           <Typography sx={{ fontSize: 12, color: '#888888', textAlign: 'center' }}>
-            © 2026 NOVA. All rights reserved.
+            © 2026 NOVA. 모든 권리 보유.
           </Typography>
         </Box>
       </Box>

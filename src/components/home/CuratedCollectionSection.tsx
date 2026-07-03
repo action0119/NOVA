@@ -9,9 +9,9 @@ import type { Tables } from '../../types/database'
 type Product = Tables<'product'> & { brand: { brand_name: string } | null }
 
 const TABS = [
-  { label: 'New Arrival', tag: 'NEW' },
-  { label: 'Best Item', tag: 'BEST' },
-  { label: 'AI Pick', tag: 'AI PICK' },
+  { label: '신상품', tag: 'NEW' },
+  { label: '베스트 아이템', tag: 'BEST' },
+  { label: 'AI 추천', tag: 'AI PICK' },
 ] as const
 
 export default function CuratedCollectionSection() {
@@ -35,7 +35,7 @@ export default function CuratedCollectionSection() {
         <Box>
           <Typography sx={{ fontSize: 14, fontWeight: 600, color: '#888888', mb: 2 }}>04</Typography>
           <Typography sx={{ fontSize: 36, fontWeight: 700, lineHeight: 1.2, color: '#111111', mb: 2 }}>
-            Curated Collection
+            추천 컬렉션
           </Typography>
           <Typography sx={{ fontSize: 16, lineHeight: 1.6, color: '#555555' }}>
             NOVA가 이번 시즌 가장 먼저 추천하는 상품들입니다.

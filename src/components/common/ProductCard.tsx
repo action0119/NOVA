@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from '@mui/material'
 import { Heart } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { formatPrice, TAG_COLORS } from '../../utils/format'
+import { formatPrice, TAG_COLORS, TAG_LABELS } from '../../utils/format'
 import type { Tables } from '../../types/database'
 
 type Product = Tables<'product'>
@@ -63,7 +63,7 @@ export default function ProductCard({
               fontWeight: 700,
             }}
           >
-            {product.product_tag}
+            {TAG_LABELS[product.product_tag] ?? product.product_tag}
           </Box>
         )}
         {showWishlist && (
@@ -115,7 +115,7 @@ export default function ProductCard({
               '&:hover': { bgcolor: '#111111' },
             }}
           >
-            Quick View
+            빠른보기
           </Button>
         )}
       </Box>

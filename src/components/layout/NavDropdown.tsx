@@ -1,32 +1,28 @@
-import { Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Box, Typography } from '@mui/material'
 import { useToast } from '../../context/ToastContext'
 import { HEADER_HEIGHT } from './headerConstants'
+import { WOMEN_MEGA_MENU, MEN_MEGA_MENU, type MegaMenuColumn } from '../../constants/categoryMenu'
 
-const MOODS = ['Minimal', 'Street', 'Casual', 'Vintage', 'Office']
-const BRAND_TIER_ITEMS = ['New Brands', 'Designer Brands']
-
-export type DropdownKey = 'Women' | 'Men' | 'Brands' | null
+export type DropdownKey = 'Women' | 'Men' | null
 
 interface NavDropdownProps {
   activeKey: DropdownKey
 }
 
+const MENUS: Record<'Women' | 'Men', MegaMenuColumn[]> = {
+  Women: WOMEN_MEGA_MENU,
+  Men: MEN_MEGA_MENU,
+}
+
+// 여성/남성 메뉴 hover 시 헤더 바로 아래 전체 너비로 펼쳐지는 5컬럼 카테고리 메가메뉴.
+// 절대 위치 오버레이라 열려도 헤더 높이는 흔들리지 않는다.
 export default function NavDropdown({ activeKey }: NavDropdownProps) {
-  const navigate = useNavigate()
   const showToast = useToast()
   const open = activeKey !== null
+  const columns = activeKey ? MENUS[activeKey] : []
 
-  const handleMoodClick = (category: 'Women' | 'Men', mood: string) => {
-    navigate(`/products?category=${category}&mood=${mood}`)
-  }
-
-  const handleBrandTierClick = (item: string) => {
-    if (MOODS.includes(item)) {
-      navigate(`/products?mood=${item}`)
-    } else {
-      showToast(`${item}은(는) 준비 중입니다.`)
-    }
+  const handleItemClick = (item: string) => {
+    showToast(`${item} 카테고리 페이지는 데모입니다.`)
   }
 
   return (
@@ -39,53 +35,45 @@ export default function NavDropdown({ activeKey }: NavDropdownProps) {
         bgcolor: '#FFFFFF',
         borderBottom: open ? '1px solid #E5E5E5' : 'none',
         overflow: 'hidden',
-        maxHeight: open ? 220 : 0,
+        maxHeight: open ? 300 : 0,
         opacity: open ? 1 : 0,
         transform: open ? 'translateY(0)' : 'translateY(-8px)',
-        transition: 'max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease',
+        transition: 'max-height 0.3s ease, opacity 0.25s ease, transform 0.25s ease',
         pointerEvents: open ? 'auto' : 'none',
       }}
     >
-      <Box sx={{ maxWidth: 1920, mx: 'auto', px: 6, py: 4 }}>
-        {(activeKey === 'Women' || activeKey === 'Men') && (
-          <Box sx={{ display: 'flex', gap: 6 }}>
-            {MOODS.map((mood) => (
-              <Box
-                key={mood}
-                onClick={() => handleMoodClick(activeKey, mood)}
-                sx={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: '#111111',
-                  cursor: 'pointer',
-                  '&:hover': { color: '#3157FF' },
-                }}
-              >
-                {mood}
-              </Box>
-            ))}
+      <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6, py: '36px', display: 'flex', gap: '56px' }}>
+        {columns.map((column) => (
+          <Box key={column.title} sx={{ flex: 1 }}>
+            <Typography sx={{ fontFamily: 'Pretendard', fontSize: 15, fontWeight: 700, color: '#111111', mb: 2 }}>
+              {column.title}
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              {column.items.map((item) => (
+                <Box
+                  key={item}
+                  component="button"
+                  onClick={() => handleItemClick(item)}
+                  sx={{
+                    textAlign: 'left',
+                    border: 'none',
+                    background: 'none',
+                    p: 0,
+                    cursor: 'pointer',
+                    fontFamily: 'Pretendard',
+                    fontSize: 14,
+                    fontWeight: 400,
+                    lineHeight: 1.9,
+                    color: '#555555',
+                    '&:hover': { color: '#3157FF' },
+                  }}
+                >
+                  {item}
+                </Box>
+              ))}
+            </Box>
           </Box>
-        )}
-
-        {activeKey === 'Brands' && (
-          <Box sx={{ display: 'flex', gap: 6 }}>
-            {[...BRAND_TIER_ITEMS, ...MOODS].map((item) => (
-              <Box
-                key={item}
-                onClick={() => handleBrandTierClick(item)}
-                sx={{
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: '#111111',
-                  cursor: 'pointer',
-                  '&:hover': { color: '#3157FF' },
-                }}
-              >
-                {item}
-              </Box>
-            ))}
-          </Box>
-        )}
+        ))}
       </Box>
     </Box>
   )

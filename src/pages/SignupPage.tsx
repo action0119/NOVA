@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { Box, Typography, Button, TextField, Checkbox, FormControlLabel } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 import { useToast } from '../context/ToastContext'
+import { loadDaumPostcodeScript } from '../lib/daumPostcode'
+import { formatPhoneNumber } from '../utils/phone'
+import novaLogo from '../assets/nova-logo-2.png'
 
 const LOGIN_ID_PATTERN = /^[A-Za-z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]{8,13}$/
 const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,13}$/
@@ -12,7 +15,10 @@ export default function SignupPage() {
   const showToast = useToast()
 
   const [name, setName] = useState('')
-  const [address, setAddress] = useState('')
+  const [zonecode, setZonecode] = useState('')
+  const [roadAddress, setRoadAddress] = useState('')
+  const [addressDetail, setAddressDetail] = useState('')
+  const [addressManual, setAddressManual] = useState(false)
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [phoneCodeSent, setPhoneCodeSent] = useState(false)
@@ -27,8 +33,27 @@ export default function SignupPage() {
   const [marketingAgree, setMarketingAgree] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleAddressSearch = () => {
-    showToast('주소 검색은 데모입니다. 주소를 직접 입력해주세요.')
+  const passwordMatch: 'idle' | 'match' | 'mismatch' =
+    !passwordConfirm ? 'idle' : password === passwordConfirm ? 'match' : 'mismatch'
+
+  const handleAddressSearch = async () => {
+    try {
+      await loadDaumPostcodeScript()
+      new window.daum!.Postcode({
+        oncomplete: (data) => {
+          setZonecode(data.zonecode)
+          setRoadAddress(data.roadAddress || data.jibunAddress)
+          setAddressManual(false)
+        },
+      }).open()
+    } catch {
+      showToast('주소 검색 서비스를 불러오지 못했습니다. 기본주소를 직접 입력해주세요.')
+      setAddressManual(true)
+    }
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(formatPhoneNumber(e.target.value))
   }
 
   const handleSendCode = () => {
@@ -60,7 +85,8 @@ export default function SignupPage() {
   }
 
   const handleSubmit = async () => {
-    if (!name.trim() || !address.trim() || !email.trim() || !phone.trim()) {
+    const fullAddress = `${roadAddress} ${addressDetail}`.trim()
+    if (!name.trim() || !roadAddress.trim() || !email.trim() || !phone.trim()) {
       showToast('필수 항목을 모두 입력해주세요.')
       return
     }
@@ -95,7 +121,7 @@ export default function SignupPage() {
             user_name: name,
             user_login_id: loginId,
             phone_number: phone,
-            address,
+            address: fullAddress,
             marketing_agree: marketingAgree,
             referrer_id: referrerId || null,
           },
@@ -113,24 +139,45 @@ export default function SignupPage() {
   }
 
   return (
-    <Box sx={{ maxWidth: 480, mx: 'auto', py: 15, px: 3 }}>
+    <Box sx={{ maxWidth: 480, mx: 'auto', py: 10, px: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <Box component={Link} to="/" sx={{ display: 'flex' }}>
+          <Box component="img" src={novaLogo} alt="NOVA" sx={{ height: 40, width: 'auto' }} />
+        </Box>
+      </Box>
       <Typography sx={{ fontSize: 32, fontWeight: 700, color: '#111111', mb: 5, textAlign: 'center' }}>
-        Sign Up
+        회원가입
       </Typography>
 
       <TextField fullWidth label="이름" value={name} onChange={(e) => setName(e.target.value)} sx={{ mb: 2 }} />
 
-      <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-        <TextField fullWidth label="주소" value={address} onChange={(e) => setAddress(e.target.value)} />
+      <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+        <TextField fullWidth label="우편번호" value={zonecode} sx={{ flex: '0 0 140px' }} disabled />
         <Button onClick={handleAddressSearch} sx={{ flexShrink: 0, height: 56, border: '1px solid #DCDCDC', borderRadius: 0, color: '#111111' }}>
           주소 검색
         </Button>
       </Box>
+      <TextField
+        fullWidth
+        label="기본주소"
+        value={roadAddress}
+        onChange={(e) => setRoadAddress(e.target.value)}
+        disabled={!addressManual}
+        sx={{ mb: 2 }}
+      />
+      <TextField fullWidth label="상세주소" value={addressDetail} onChange={(e) => setAddressDetail(e.target.value)} sx={{ mb: 2 }} />
 
       <TextField fullWidth label="이메일" value={email} onChange={(e) => setEmail(e.target.value)} sx={{ mb: 2 }} />
 
       <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-        <TextField fullWidth label="전화번호" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={phoneVerified} />
+        <TextField
+          fullWidth
+          label="전화번호"
+          placeholder="010-1234-5678"
+          value={phone}
+          onChange={handlePhoneChange}
+          disabled={phoneVerified}
+        />
         <Button
           onClick={handleSendCode}
           disabled={phoneVerified}
@@ -180,8 +227,14 @@ export default function SignupPage() {
         label="비밀번호 확인"
         value={passwordConfirm}
         onChange={(e) => setPasswordConfirm(e.target.value)}
-        sx={{ mb: 2 }}
+        sx={{ mb: passwordMatch === 'idle' ? 2 : 0.5 }}
       />
+      {passwordMatch !== 'idle' && (
+        <Typography sx={{ fontSize: 12, color: passwordMatch === 'match' ? '#3157FF' : '#E5484D', mb: 2 }}>
+          {passwordMatch === 'match' ? '비밀번호가 일치합니다.' : '비밀번호가 일치하지 않습니다.'}
+        </Typography>
+      )}
+
       <TextField
         fullWidth
         label="추천인 아이디 (선택)"

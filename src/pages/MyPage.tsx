@@ -74,7 +74,7 @@ export default function MyPage() {
 
   return (
     <Box sx={{ maxWidth: 960, mx: 'auto', px: 6, py: 10 }}>
-      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 6 }}>My Page</Typography>
+      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 6 }}>마이페이지</Typography>
 
       <Box component="section" sx={{ mb: 8 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>

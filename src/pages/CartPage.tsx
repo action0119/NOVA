@@ -85,7 +85,7 @@ export default function CartPage() {
 
   return (
     <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6, py: 8 }}>
-      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 5 }}>Cart</Typography>
+      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 5 }}>장바구니</Typography>
 
       {items.length === 0 && (
         <Box sx={{ textAlign: 'center', py: 8 }}>

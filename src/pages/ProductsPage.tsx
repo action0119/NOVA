@@ -6,8 +6,9 @@ import QuickViewModal from '../components/common/QuickViewModal'
 import { useProducts, type ProductWithBrand } from '../hooks/useProducts'
 import { useBrands } from '../hooks/useBrands'
 import { useWishlistToggle } from '../hooks/useWishlistToggle'
+import { MOODS, MOOD_LABELS } from '../constants/moodImages'
+import { CATEGORY_LABELS } from '../constants/labels'
 
-const MOODS = ['Minimal', 'Street', 'Vintage', 'Casual', 'Office']
 const SORTS = ['최신순', '인기순', '가격 낮은순', '가격 높은순'] as const
 
 export default function ProductsPage() {
@@ -60,7 +61,7 @@ export default function ProductsPage() {
 
   return (
     <Box sx={{ maxWidth: 1280, mx: 'auto', px: 6, py: 8 }}>
-      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 4 }}>Products</Typography>
+      <Typography sx={{ fontSize: 36, fontWeight: 700, color: '#111111', mb: 4 }}>상품</Typography>
 
       <Box sx={{ display: 'flex', gap: 6 }}>
         <Box sx={{ width: 240, flexShrink: 0 }}>
@@ -90,7 +91,7 @@ export default function ProductsPage() {
                   p: 0,
                 }}
               >
-                {c}
+                {CATEGORY_LABELS[c] ?? c}
               </Box>
             ))}
           </Box>
@@ -136,7 +137,7 @@ export default function ProductsPage() {
                   cursor: 'pointer',
                 }}
               >
-                #{m}
+                #{MOOD_LABELS[m]}
               </Box>
             ))}
           </Box>
